@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="小码哥 | 博客">
 <meta property="og:description" content="在 Java 开发中，Class 文件里描述的各种信息，需要加载到 JVM 之后才能运行和使用。虚拟机把描述类的数据从 Class 文件 加载到 内存，并对数据进行 校验、转换解析 和 初始化，最终形成可以被虚拟机直接使用的 Java 类型，这就是 虚拟机的类加载机制。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/public/images/%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.jpg">
+<meta property="og:image" content="http://example.com/public/images/LifeCycleofaClass.jpg">
 <meta property="article:published_time" content="2020-11-24T12:43:34.000Z">
-<meta property="article:modified_time" content="2020-11-24T14:25:48.664Z">
+<meta property="article:modified_time" content="2020-11-24T14:31:50.389Z">
 <meta property="article:author" content="Mjk">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/public/images/%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.jpg">
+<meta name="twitter:image" content="http://example.com/public/images/LifeCycleofaClass.jpg">
 
 <link rel="canonical" href="http://example.com/2020/11/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
 
@@ -193,7 +193,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-24 20:43:34 / 修改时间：22:25:48" itemprop="dateCreated datePublished" datetime="2020-11-24T20:43:34+08:00">2020-11-24</time>
+              <time title="创建时间：2020-11-24 20:43:34 / 修改时间：22:31:50" itemprop="dateCreated datePublished" datetime="2020-11-24T20:43:34+08:00">2020-11-24</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,7 +228,7 @@
 
 <h2 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h2><hr>
 <p>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：<strong>加载</strong>（Loading）、<strong>验证</strong>（Verification）、<strong>准备</strong>（Preparation）、<strong>解析</strong>（Resolution）、<strong>初始化</strong>（Initialization）、<strong>使用</strong>（Using）和 <strong>卸载</strong>（Unloading）7 个阶段。其中验证、准备和解析 3 个部分统称为 <strong>连接</strong>（Linking），发生顺序如下图所示。  </p>
-<p><img src="/public/images/%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.jpg" alt="类的生命周期"></p>
+<p><img src="/public/images/LifeCycleofaClass.jpg" alt="类的生命周期"></p>
 <p>上图中，加载、验证、准备、初始化和卸载 5 个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持 Java 语言的运行时绑定。  </p>
 <p>对于何时进行类加载过程，JVM 规范中并没有进行强制约束，这点可以交给虚拟机的具体实现来自由把握。但是，对于 <strong>初始化</strong> 阶段，虚拟机规范则是严格规定了 <strong>有且只有</strong> 5 种情况必须立即对类进行 “初始化”（加载、验证、准备自然需要在此之前开始）：</p>
 <ol>
