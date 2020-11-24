@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、otter介绍阿里巴巴B2B公司，因为业务的特性，卖家主要集中在国内，买家主要集中在国外，所以衍生出了杭州和美国异地机房的需求，同时为了提升用户体验，整个机房的架构为双A，两边均可写，由此诞生了otter这样一个产品。 otter项目：https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;otterotter官方文档：https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;otter&#x2F;wiki">
+<meta property="og:type" content="article">
+<meta property="og:title" content="otter：分布式数据库同步系统">
+<meta property="og:url" content="http://example.com/2020/11/24/otter%EF%BC%9A%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8C%E6%AD%A5%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="小码哥 | 博客">
+<meta property="og:description" content="一、otter介绍阿里巴巴B2B公司，因为业务的特性，卖家主要集中在国内，买家主要集中在国外，所以衍生出了杭州和美国异地机房的需求，同时为了提升用户体验，整个机房的架构为双A，两边均可写，由此诞生了otter这样一个产品。 otter项目：https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;otterotter官方文档：https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;otter&#x2F;wiki">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190808170445457.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190809094522355.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190809111055187.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190809133003267.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190809133406915.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190809135359459.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190809135521492.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190809141701449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2020-11-24T02:58:24.000Z">
+<meta property="article:modified_time" content="2020-11-24T11:25:44.055Z">
+<meta property="article:author" content="Mjk">
+<meta property="article:tag" content="otter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190808170445457.png">
+
+<link rel="canonical" href="http://example.com/2020/11/24/otter%EF%BC%9A%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8C%E6%AD%A5%E7%B3%BB%E7%BB%9F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>otter：分布式数据库同步系统 | 小码哥 | 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小码哥 | 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/otter%EF%BC%9A%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8C%E6%AD%A5%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mjk">
+      <meta itemprop="description" content="独立精神，自由思想！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小码哥 | 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          otter：分布式数据库同步系统
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-24 10:58:24 / 修改时间：19:25:44" itemprop="dateCreated datePublished" datetime="2020-11-24T10:58:24+08:00">2020-11-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">数据迁移</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一、otter介绍"><a href="#一、otter介绍" class="headerlink" title="一、otter介绍"></a>一、otter介绍</h1><p>阿里巴巴B2B公司，因为业务的特性，卖家主要集中在国内，买家主要集中在国外，所以衍生出了杭州和美国异地机房的需求，同时为了提升用户体验，整个机房的架构为双A，两边均可写，由此诞生了otter这样一个产品。</p>
+<p>otter项目：<a target="_blank" rel="noopener" href="https://github.com/alibaba/otter">https://github.com/alibaba/otter</a><br>otter官方文档：<a target="_blank" rel="noopener" href="https://github.com/alibaba/otter/wiki">https://github.com/alibaba/otter/wiki</a></p>
+<a id="more"></a>
+<h1 id="二、QuickStart"><a href="#二、QuickStart" class="headerlink" title="二、QuickStart"></a>二、QuickStart</h1><h2 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1. 环境准备"></a>1. 环境准备</h2><p>服务器：<br>服务器A：192.168.x.1（主）<br>服务器B：192.168.x.3（从）</p>
+<p>远程工具：XShell 6（用于建立远程连接）、Xftp 6（用于文件的上传）</p>
+<p>操作系统：CentOS 7.2</p>
+<p>JDK：1.8.0_221</p>
+<p>数据库：MySQL 5.7</p>
+<p>ZooKeeper：3.3.6</p>
+<p>otter：otter包含两部分，一个是manager，另一个是node，版本都是4.2.16。</p>
+<h2 id="2-环境安装"><a href="#2-环境安装" class="headerlink" title="2.环境安装"></a>2.环境安装</h2><h3 id="（1）-JDK的安装"><a href="#（1）-JDK的安装" class="headerlink" title="（1） JDK的安装"></a>（1） JDK的安装</h3><p>otter为纯Java编写，因此需要确保机器中部署了Java环境。<br>本文下载版本：jdk-8u221-linux-x64.rpm（可根据具体需要自行选择）</p>
+<p>1）上传安装包<br>打开Xftp 6，新建连接，上传安装包至指定的服务器，本文以 <code>/home</code> 为例。</p>
+<p>2）执行安装<br>执行 <code>rpm -ivh jdk-8u221-linux-x64.rpm</code> 命令，开始安装JDK，等待安装完成。<br>在 <code>/usr/java</code> 下会增加一个 <code>jdk1.8.0_221-amd64</code> ，说明JDK安装成功。</p>
+<p>3）配置环境变量<br>执行 <code>vim /etc/profile</code> 命令，打开 <code>profile</code> 文件，按 <code>i</code> 进行文件的编辑，在文件的尾部添加如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_221-amd64</span><br><span class="line">JAVA_BIN&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_221-amd64&#x2F;bin</span><br><span class="line">JRE_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_221-amd64&#x2F;jre</span><br><span class="line">PATH&#x3D;$JAVA_BIN:$PATH</span><br><span class="line">CLASSPATH&#x3D;$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</span><br><span class="line">export JAVA_HOME JAVA_BIN PATH CLASSPATH</span><br></pre></td></tr></table></figure>
+<p>注：以上根据实际安装路径填写。<br>另：如果系统中提示 <code>-bash: vim: command not found</code> 说明还未安装 <code>vim</code> ，需要先执行 <code>yum -y install vim*</code> 进行 <code>vim</code> 的安装。</p>
+<p>编辑完成后，按 <code>Esc</code> 键退出编辑状态，并输入 <code>:wq</code> 进行保存并退出。<br>退出 <code>profile</code> 文件后，执行 <code>source /etc/profile</code> 命令，让配置文件立即生效。<br>执行 <code>java -version</code> 命令，查看Java信息。<br><img src="https://img-blog.csdnimg.cn/20190808170445457.png" alt="java -version"><br>出现如上信息说明JDK已经安装成功。</p>
+<h3 id="（2）-MySQL的安装"><a href="#（2）-MySQL的安装" class="headerlink" title="（2） MySQL的安装"></a>（2） MySQL的安装</h3><p>本文下载版本：mysql-5.7.16-linux-glibc2.5-x86_64.tar.gz</p>
+<p>1）首先检查服务器中是否有之前安装的残留文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find &#x2F; -name mysql</span><br></pre></td></tr></table></figure>
+<p>如果有，则进行删除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf 目录+文件名</span><br></pre></td></tr></table></figure>
+
+<p>2）上传安装包<br>通过Xftp 6，上传MySQL安装包至服务器指定目录，以 <code>/home</code> 为例。</p>
+<p>3）解压安装包</p>
+<ul>
+<li>进入安装包所在目录： <code>cd /home</code></li>
+<li>解压缩： <code>tar -xzvf mysql-5.7.16-linux-glibc2.5-x86_64.tar.gz</code></li>
+<li>重命名解压缩后的文件夹： <code>mv mysql-5.7.16-linux-glibc2.5-x86_64 mysql</code></li>
+</ul>
+<p>4）添加用户及用户组</p>
+<ul>
+<li>新建mysql用户组： <code>groupadd mysql</code></li>
+<li>查看新建的用户组： <code>cat /etc/group</code></li>
+<li>新建mysql用户并添加至mysql用户组： <code>useradd -r -g mysql mysql</code></li>
+<li>查看新建的用户： <code>cat /etc/passwd</code></li>
+<li>在mysql文件夹下创建新的文件夹： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;mysql</span><br><span class="line">mkdir data log tmp</span><br></pre></td></tr></table></figure></li>
+<li>将mysql文件夹及其子文件夹的用户及用户组改为mysql：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>5）安装数据库</p>
+<ul>
+<li>将MySQL配置文件 <code>my.cnf</code> 放到指定位置 <code>/etc</code> 目录下（ <code>my.cnf</code> 文件的配置可以参考这篇文章<a target="_blank" rel="noopener" href="https://blog.51cto.com/arm2012/2159513">《my.cnf常用配置》</a>）</li>
+<li>进入 <code>mysql/bin</code> 目录，执行安装命令，并指定用户、安装目录以及数据存放目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;mysql&#x2F;bin</span><br><span class="line">.&#x2F;mysqld --initialize --user&#x3D;mysql --basedir&#x3D;&#x2F;home&#x2F;mysql --datadir&#x3D;&#x2F;home&#x2F;mysql&#x2F;data</span><br></pre></td></tr></table></figure>
+注：如果执行上述命令时报错：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;mysqld: error while loading shared libraries: libaio.so.1: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+此时需要安装<code>libaio</code> ，安装命令为： <code>yum -y install libaio</code></li>
+<li>进入日志文件，查看初始密码（一定要保存初始密码，否则后面登陆不了MySQL）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;home&#x2F;mysql&#x2F;log&#x2F;error.log</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>6）修改配置文件</p>
+<ul>
+<li>进入 <code>support-files</code> 目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;mysql&#x2F;support-files</span><br></pre></td></tr></table></figure></li>
+<li>复制配置文件至 <code>/etc/init.d/mysql</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp mysql.server &#x2F;etc&#x2F;init.d&#x2F;mysql</span><br></pre></td></tr></table></figure></li>
+<li>修改MySQL配置文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;init.d&#x2F;mysql</span><br></pre></td></tr></table></figure>
+修改以下两个值：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">basedir&#x3D;&#x2F;home&#x2F;mysql</span><br><span class="line">datadir&#x3D;&#x2F;home&#x2F;mysql&#x2F;data</span><br></pre></td></tr></table></figure></li>
+<li>配置系统环境变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+添加MySQL相关环境变量：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export MYSQL_HOME&#x3D;&#x2F;home&#x2F;mysql</span><br><span class="line">export PATH&#x3D;$PATH:$MYSQL_HOME&#x2F;bin</span><br></pre></td></tr></table></figure></li>
+<li>修改完成后，执行 <code>source /etc/profile</code> 使配置生效</li>
+</ul>
+<p>7）添加开机自启动服务并将MySQL服务启动</p>
+<ul>
+<li>添加服务，服务名称为 <code>mysql</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add mysql</span><br></pre></td></tr></table></figure></li>
+<li>开启 <code>mysql</code> 自启动服务<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig mysql on</span><br></pre></td></tr></table></figure></li>
+<li>启动 <code>mysql</code> 服务，出现 <code>SUCCESS!</code> 即为启动成功<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql start</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>8）配置用户名、密码并开启远程访问权限</p>
+<ul>
+<li>进入MySQL（5.7版本的初始密码由MySQL自动生成，即前文中日志文件所说密码）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+设置密码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password&#x3D;password(&#39;123456&#39;);</span><br></pre></td></tr></table></figure>
+创建用户<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure>
+设置远程访问权限<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br><span class="line">exit;</span><br></pre></td></tr></table></figure>
+<h3 id="（3）ZooKeeper的安装"><a href="#（3）ZooKeeper的安装" class="headerlink" title="（3）ZooKeeper的安装"></a>（3）ZooKeeper的安装</h3>otter node依赖于zookeeper进行分布式调度，需要安装一个zookeeper节点或者集群。<br>本文下载版本：zookeeper-3.3.6.tar.gz，只在服务器A：192.168.x.1（主）上进行单节点的部署。</li>
+</ul>
+<p>1）使用Xftp 6上传安装包至服务器指定目录，本文以 <code>/home</code> 为例</p>
+<p>2）进入安装包所在目录并解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home</span><br><span class="line">tar -xzvf zookeeper-3.3.6.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>3）重命名文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv zookeeper-3.3.6 zookeeper</span><br></pre></td></tr></table></figure>
+
+<p>4）创建data及log目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;home&#x2F;zookeeper&#x2F;data</span><br><span class="line">mkdir &#x2F;home&#x2F;zookeeper&#x2F;log</span><br></pre></td></tr></table></figure>
+
+<p>5）修改配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;zookeeper&#x2F;conf</span><br><span class="line">cp zoo_sample.cfg zoo.cfg</span><br><span class="line">vim zoo.cfg</span><br></pre></td></tr></table></figure>
+<p>修改成如下内容：<br><img src="https://img-blog.csdnimg.cn/20190809094522355.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70" alt="vim zoo.cfg"><br>6）启动zookeeper</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;zookeeper&#x2F;bin</span><br><span class="line">.&#x2F;zkServer.sh start</span><br></pre></td></tr></table></figure>
+<p>出现 <code>STARTED</code> 字样即为启动成功。</p>
+<p>7）自启动配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;rc.d&#x2F;rc.local</span><br></pre></td></tr></table></figure>
+<p>添加下面一行语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;home&#x2F;zookeeper&#x2F;bin&#x2F;zkServer.sh start</span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）otter-manager的安装"><a href="#（4）otter-manager的安装" class="headerlink" title="（4）otter manager的安装"></a>（4）otter manager的安装</h3><p>在服务器A：192.168.x.1（主）机器上安装。<br>本文下载版本：manager.deployer-4.2.16.tar.gz</p>
+<p>1）初始化otter manager系统表<br>下载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.github.com&#x2F;alibaba&#x2F;otter&#x2F;master&#x2F;manager&#x2F;deployer&#x2F;src&#x2F;main&#x2F;resources&#x2F;sql&#x2F;otter-manager-schema.sql</span><br></pre></td></tr></table></figure>
+<p>注：如果没有安装 <code>wget</code> 需要先执行 <code>yum -y install wget</code> 进行安装。<br>载入（在MySQL内执行该语句）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source &#x2F;home&#x2F;otter-manager-schema.sql</span><br></pre></td></tr></table></figure>
+<p>注：MySQL 5.7版本 <code>timestamp</code> 类型的数据默认不能为，由此会导致上述语句执行失败。解决方案如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;my.cnf</span><br></pre></td></tr></table></figure>
+<p>在[mysqld]下面添加一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql-mode&#x3D;ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br></pre></td></tr></table></figure>
+<p>重启MySQL服务使配置生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
+
+<p>2）下载otter manager并上传至服务器<br>下载链接：<a target="_blank" rel="noopener" href="https://github.com/alibaba/otter/releases">https://github.com/alibaba/otter/releases</a><br>上传至 <code>/home</code> 文件夹下</p>
+<p>3）解压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p &#x2F;home&#x2F;otter&#x2F;manager</span><br><span class="line">cd &#x2F;home</span><br><span class="line">tar zxvf manager.deployer-4.2.16.tar.gz -C &#x2F;home&#x2F;otter&#x2F;manager</span><br></pre></td></tr></table></figure>
+
+<p>4）配置修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;otter&#x2F;manager&#x2F;conf</span><br><span class="line">vim otter.properties</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>otter.domainName = 192.168.x.1（根据自己ip进行设置）<br>otter.port = 8080（设置otter manager服务的端口号，默认为8080）</p>
+</blockquote>
+<blockquote>
+<p>otter.database.driver.url = jdbc:mysql://192.168.x.1:3306/otter<br>otter.database.driver.username = root<br>otter.database.driver.password = 123456</p>
+</blockquote>
+<blockquote>
+<p>otter.zookeeper.cluster.default = 192.168.x.1:2181</p>
+</blockquote>
+<p>5）启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh &#x2F;home&#x2F;otter&#x2F;manager&#x2F;bin&#x2F;startup.sh</span><br></pre></td></tr></table></figure>
+
+<p>6）查看日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim logs&#x2F;manager.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2019-08-09 11:03:54.828 [] INFO  com.alibaba.otter.manager.deployer.JettyEmbedServer - ##Jetty Embed Server is startup!</span><br><span class="line">2019-08-09 11:03:54.828 [] INFO  com.alibaba.otter.manager.deployer.OtterManagerLauncher - ## the manager server is running now ......</span><br></pre></td></tr></table></figure>
+<p>出现上述信息，表明启动成功</p>
+<p>7）验证<br>访问：<a target="_blank" rel="noopener" href="http://192.168.x.1:8080/">http://192.168.x.1:8080/</a> 出现otter的页面，即代表启动成功<br><img src="https://img-blog.csdnimg.cn/20190809111055187.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70" alt="manager"><br>访问：<a target="_blank" rel="noopener" href="http://192.168.x.1:8080/login.htm%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%AF%86%E7%A0%81%E4%B8%BA%EF%BC%9Aadmin/admin%EF%BC%8C%E5%8D%B3%E5%8F%AF%E5%AE%8C%E6%88%90%E7%99%BB%E5%BD%95">http://192.168.x.1:8080/login.htm，初始密码为：admin/admin，即可完成登录</a>. 目前：匿名用户只有只读查看的权限，登录为管理员才可以有操作权限</p>
+<p>注：如果使用XShell等远程连接工具无法打开上述网址，请先关闭服务器的防火墙再尝试。</p>
+<p>8）关闭</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh stop.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="（5）otter-node的安装"><a href="#（5）otter-node的安装" class="headerlink" title="（5）otter node的安装"></a>（5）otter node的安装</h3><p>otter node需要在各个应用的服务器上进行安装和配置，即：<br>服务器A：192.168.x.1（主）<br>服务器B：192.168.x.3（从）<br>本文以服务器A为例进行讲解，其他机器上的安装配置类似。<br>本文下载版本：node.deployer-4.2.16.tar.gz</p>
+<p>1）在manager中对node进行配置</p>
+<ul>
+<li>访问<a target="_blank" rel="noopener" href="http://192.168.x.1:8080/%EF%BC%8C%E5%B7%B2%E7%AE%A1%E7%90%86%E5%91%98%E7%9A%84%E8%BA%AB%E4%BB%BD%E7%99%BB%E9%99%86%E7%B3%BB%E7%BB%9F">http://192.168.x.1:8080/，已管理员的身份登陆系统</a><br><img src="https://img-blog.csdnimg.cn/20190809133003267.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70" alt="otter manager"></li>
+<li>点击“机器管理”-“zookeeper管理”，添加zookeeper的信息<br><img src="https://img-blog.csdnimg.cn/20190809133406915.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70" alt="添加zookeeper"></li>
+<li>点击“机器管理”-“Node管理”，添加机器的信息<br><img src="https://img-blog.csdnimg.cn/20190809135359459.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70" alt="机器管理"></li>
+<li>机器添加完成后，跳转到机器管理列表页面，得到对应机器的序号，称之为node id，简称nid，后续启动nid时会使用<br><img src="https://img-blog.csdnimg.cn/20190809135521492.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70" alt="机器管理列表"></li>
+</ul>
+<p>2）安装aria2<br>node节点进行跨机房传输时，会使用到HTTP多线程传输技术，目前主要依赖了aria2c做为其下载客户端，当前测试过多个HTTP多线程下载客户端，比如wget,curl,axel,oget,proz,aria2c，测试结果aria2c下载效率最快，基本可以压满网卡。</p>
+<ul>
+<li>首先安装EPEL源<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br><span class="line">yum repolist &#x2F;&#x2F;查看是否成功安装epel</span><br></pre></td></tr></table></figure></li>
+<li>安装Aria2<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install aria2</span><br></pre></td></tr></table></figure></li>
+<li>生成配置文件并编辑<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;etc&#x2F;aria2&#x2F;</span><br><span class="line">vim  &#x2F;etc&#x2F;aria2&#x2F;aria2.conf</span><br></pre></td></tr></table></figure></li>
+<li>配置内容<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#用户名</span><br><span class="line">#rpc-user&#x3D;自行修改</span><br><span class="line">#密码</span><br><span class="line">#rpc-passwd&#x3D;自行修改</span><br><span class="line">#上面的认证方式不建议使用,建议使用下面的token方式</span><br><span class="line">#设置加密的密钥</span><br><span class="line">#rpc-secret&#x3D;token</span><br><span class="line">#允许rpc</span><br><span class="line">enable-rpc&#x3D;true</span><br><span class="line">#允许所有来源, web界面跨域权限需要</span><br><span class="line">rpc-allow-origin-all&#x3D;true</span><br><span class="line">#允许外部访问，false的话只监听本地端口</span><br><span class="line">rpc-listen-all&#x3D;true</span><br><span class="line">#RPC端口, 仅当默认端口被占用时修改</span><br><span class="line">rpc-listen-port&#x3D;6800</span><br><span class="line">#最大同时下载数(任务数), 路由建议值: 3</span><br><span class="line">max-concurrent-downloads&#x3D;5</span><br><span class="line">#断点续传</span><br><span class="line">continue&#x3D;true</span><br><span class="line">#同服务器连接数</span><br><span class="line">max-connection-per-server&#x3D;5</span><br><span class="line">#最小文件分片大小, 下载线程数上限取决于能分出多少片, 对于小文件重要</span><br><span class="line">min-split-size&#x3D;10M</span><br><span class="line">#单文件最大线程数, 路由建议值: 5</span><br><span class="line">split&#x3D;10</span><br><span class="line">#下载速度限制</span><br><span class="line">max-overall-download-limit&#x3D;0</span><br><span class="line">#单文件速度限制</span><br><span class="line">max-download-limit&#x3D;0</span><br><span class="line">#上传速度限制</span><br><span class="line">max-overall-upload-limit&#x3D;0</span><br><span class="line">#单文件速度限制</span><br><span class="line">max-upload-limit&#x3D;0</span><br><span class="line">#断开速度过慢的连接</span><br><span class="line">#lowest-speed-limit&#x3D;0</span><br><span class="line">#验证用，需要1.16.1之后的release版本</span><br><span class="line">#referer&#x3D;*</span><br><span class="line">#文件保存路径, 默认为当前启动位置</span><br><span class="line">dir&#x3D;&#x2F;root&#x2F;downloads</span><br><span class="line">#文件缓存, 使用内置的文件缓存, 如果你不相信Linux内核文件缓存和磁盘内置缓存时使用</span><br><span class="line">#disk-cache&#x3D;0</span><br><span class="line">#另一种Linux文件缓存方式</span><br><span class="line">#enable-mmap&#x3D;true</span><br><span class="line">#文件预分配, 能有效降低文件碎片, 提高磁盘性能. 缺点是预分配时间较长</span><br><span class="line">file-allocation&#x3D;prealloc</span><br></pre></td></tr></table></figure></li>
+<li>启动测试<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aria2c --conf-path&#x3D;&#x2F;etc&#x2F;aria2&#x2F;aria2.conf</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>3）下载otter node并上传至服务器<br>otter node下载版本：node.deployer-4.2.16.tar.gz<br>本文以 <code>/home</code> 为例</p>
+<p>4）解压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p &#x2F;home&#x2F;otter&#x2F;node</span><br><span class="line">cd &#x2F;home</span><br><span class="line">tar zxvf node.deployer-4.2.16.tar.gz -C &#x2F;home&#x2F;otter&#x2F;node</span><br></pre></td></tr></table></figure>
+
+<p>5）配置修改</p>
+<ul>
+<li>nid配置（将前文添加机器后获取到的序号，保存到conf目录下的nid文件）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 1 &gt; conf&#x2F;nid</span><br></pre></td></tr></table></figure></li>
+<li>otter.properties配置修改<blockquote>
+<p>otter.manager.address = 192.168.x.1:1099</p>
+</blockquote>
+</li>
+</ul>
+<p>6）准备启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh &#x2F;home&#x2F;otter&#x2F;node&#x2F;bin&#x2F;startup.sh</span><br></pre></td></tr></table></figure>
+
+<p>7）查看日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi logs&#x2F;node&#x2F;node.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2019-08-09 14:15:16.886 [main] INFO  com.alibaba.otter.node.deployer.OtterLauncher - INFO ## the otter server is running now ......</span><br></pre></td></tr></table></figure>
+<p>出现上述信息，说明node启动成功</p>
+<p>8）验证<br>访问： <a target="_blank" rel="noopener" href="http://192.168.x.1:8080/node_list.htm%EF%BC%8C%E6%9F%A5%E7%9C%8B%E5%AF%B9%E5%BA%94%E7%9A%84%E8%8A%82%E7%82%B9%E7%8A%B6%E6%80%81%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%8F%98%E4%B8%BA%E4%BA%86%E5%B7%B2%E5%90%AF%E5%8A%A8%EF%BC%8C%E4%BB%A3%E8%A1%A8%E5%B7%B2%E7%BB%8F%E6%AD%A3%E5%B8%B8%E5%90%AF%E5%8A%A8%E3%80%82">http://192.168.x.1:8080/node_list.htm，查看对应的节点状态，如果变为了已启动，代表已经正常启动。</a><br><img src="https://img-blog.csdnimg.cn/20190809141701449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tlZXBfQ29kaW5n,size_16,color_FFFFFF,t_70" alt="验证node"><br>9）关闭</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh stop.sh</span><br></pre></td></tr></table></figure>
+<h3 id="（6）otter的安装"><a href="#（6）otter的安装" class="headerlink" title="（6）otter的安装"></a>（6）otter的安装</h3><p>1）搭建一个数据库同步任务，源数据库ip为：192.168.x.3，目标数据库ip为：192.168.x.1. 源数据库已开启binlog，并且binlog_format为ROW。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#39;%binlog_format%&#39;;</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| binlog_format | ROW   |</span><br><span class="line">+---------------+-------+</span><br></pre></td></tr></table></figure>
+
+<p>2） 数据同步精确到一张表进行测试，测试的表名为test.example，简单包含两个子段。</p>
+<p><a target="_blank" rel="noopener" href="https://video.tudou.com/v/XMTc4NjU1MjM4NA==.html?__fr=oldtd">otter配置官方演示视频</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE  &#96;test&#96;.&#96;example&#96; (</span><br><span class="line">  &#96;id&#96; int(11)  NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;name&#96; varchar(32) COLLATE utf8_bin DEFAULT NULL ,</span><br><span class="line">   PRIMARY KEY (&#96;ID&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line"></span><br><span class="line">insert into test.example(id,name) values(null,&#39;hello&#39;);</span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line">Otter QuickStart 如何配置一个任务</span><br><span class="line">-----</span><br><span class="line">操作步骤：</span><br><span class="line">1.  添加数据库</span><br><span class="line">    a.  源库 jdbc:mysql:&#x2F;&#x2F;10.20.144.25:3306</span><br><span class="line">    b.  目标库 jdbc:mysql:&#x2F;&#x2F;10.20.144.29:3306</span><br><span class="line">2.  添加canal</span><br><span class="line">    a.  提供数据库ip信息 </span><br><span class="line">3.  添加同步表信息</span><br><span class="line">    a.  源数据表 test.example</span><br><span class="line">    b.  目标数据表 test.example</span><br><span class="line">4.  添加channel</span><br><span class="line">5.  添加pipeline</span><br><span class="line">    a.  选择node节点</span><br><span class="line">    b.  选择canal</span><br><span class="line">6.  添加同步映射规则</span><br><span class="line">    a.  定义源表和目标表的同步关系</span><br><span class="line">7.  启动</span><br><span class="line">8.  测试数据 </span><br></pre></td></tr></table></figure>
+
+<p>3）配置完成后，手动在源库插入数据，然后快速在目标库进行查看数据，验证数据是否同步成功。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/otter/" rel="tag"># otter</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/24/hello-world/" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81otter%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">一、otter介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81QuickStart"><span class="nav-number">2.</span> <span class="nav-text">二、QuickStart</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">2.1.</span> <span class="nav-text">1. 环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.</span> <span class="nav-text">2.环境安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%881%EF%BC%89-JDK%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.1.</span> <span class="nav-text">（1） JDK的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%882%EF%BC%89-MySQL%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.2.</span> <span class="nav-text">（2） MySQL的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%883%EF%BC%89ZooKeeper%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.3.</span> <span class="nav-text">（3）ZooKeeper的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%884%EF%BC%89otter-manager%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.4.</span> <span class="nav-text">（4）otter manager的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%885%EF%BC%89otter-node%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.5.</span> <span class="nav-text">（5）otter node的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%886%EF%BC%89otter%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.6.</span> <span class="nav-text">（6）otter的安装</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mjk"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Mjk</p>
+  <div class="site-description" itemprop="description">独立精神，自由思想！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/raisemeup" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;raisemeup" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:mjkspacetime@163.com" title="E-Mail → mailto:mjkspacetime@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mjk</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
