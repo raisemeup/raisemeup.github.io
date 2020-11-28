@@ -162,6 +162,166 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/26/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mjk">
+      <meta itemprop="description" content="独立精神，自由思想！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小码哥 | 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/26/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" class="post-title-link" itemprop="url">JVM垃圾回收</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-26 20:27:58" itemprop="dateCreated datePublished" datetime="2020-11-26T20:27:58+08:00">2020-11-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-28 21:28:29" itemprop="dateModified" datetime="2020-11-28T21:28:29+08:00">2020-11-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>&emsp;&emsp;说起垃圾收集（Garbage Collection，GC），有不少人把这项技术当作 Java 语言的伴生产物。事实上，垃圾收集的历史远远比 Java 久远，在 1960 年诞生于麻省理工学院的 Lisp 是第一门开始使用内存动态分配和垃圾收集技术的语言。当 Lisp 还在胚胎时期时，其作者 John McCarthy 就思考过垃圾收集需要完成的三件事情：</p>
+<ul>
+<li>哪些内存需要回收？</li>
+<li>什么时候回收？</li>
+<li>如何回收？
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/26/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/26/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%EF%BC%88%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mjk">
+      <meta itemprop="description" content="独立精神，自由思想！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小码哥 | 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/26/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%EF%BC%88%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F%EF%BC%89/" class="post-title-link" itemprop="url">Java内存区域（运行时数据区域）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-26 14:08:10 / 修改时间：20:23:29" itemprop="dateCreated datePublished" datetime="2020-11-26T14:08:10+08:00">2020-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>&emsp;&emsp;JVM 在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/26/Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%EF%BC%88%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -185,10 +345,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-11-24 20:43:34 / 修改时间：22:44:20" itemprop="dateCreated datePublished" datetime="2020-11-24T20:43:34+08:00">2020-11-24</time>
+              <time title="创建时间：2020-11-24 20:43:34" itemprop="dateCreated datePublished" datetime="2020-11-24T20:43:34+08:00">2020-11-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-25 21:25:17" itemprop="dateModified" datetime="2020-11-25T21:25:17+08:00">2020-11-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -210,7 +376,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在 Java 开发中，Class 文件里描述的各种信息，需要加载到 JVM 之后才能运行和使用。虚拟机把描述类的数据从 <strong>Class 文件</strong> 加载到 <strong>内存</strong>，并对数据进行 <strong>校验</strong>、<strong>转换解析</strong> 和 <strong>初始化</strong>，最终形成可以被虚拟机直接使用的 Java 类型，这就是 <strong>虚拟机的类加载机制</strong>。  </p>
+          <p>&emsp;&emsp;在 Java 开发中，Class 文件里描述的各种信息，需要加载到 JVM 之后才能运行和使用。虚拟机把描述类的数据从 <strong>Class 文件</strong> 加载到 <strong>内存</strong>，并对数据进行 <strong>校验</strong>、<strong>转换解析</strong> 和 <strong>初始化</strong>，最终形成可以被虚拟机直接使用的 Java 类型，这就是 <strong>虚拟机的类加载机制</strong>。  </p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/#more" rel="contents">
@@ -325,10 +491,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-11-24 10:58:24 / 修改时间：19:25:44" itemprop="dateCreated datePublished" datetime="2020-11-24T10:58:24+08:00">2020-11-24</time>
+              <time title="创建时间：2020-11-24 10:58:24" itemprop="dateCreated datePublished" datetime="2020-11-24T10:58:24+08:00">2020-11-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-25 21:25:17" itemprop="dateModified" datetime="2020-11-25T21:25:17+08:00">2020-11-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -351,7 +523,6 @@
 
       
           <h1 id="一、otter介绍"><a href="#一、otter介绍" class="headerlink" title="一、otter介绍"></a>一、otter介绍</h1><p>阿里巴巴B2B公司，因为业务的特性，卖家主要集中在国内，买家主要集中在国外，所以衍生出了杭州和美国异地机房的需求，同时为了提升用户体验，整个机房的架构为双A，两边均可写，由此诞生了otter这样一个产品。</p>
-<p>otter项目：<a target="_blank" rel="noopener" href="https://github.com/alibaba/otter">https://github.com/alibaba/otter</a><br>otter官方文档：<a target="_blank" rel="noopener" href="https://github.com/alibaba/otter/wiki">https://github.com/alibaba/otter/wiki</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/24/otter%EF%BC%9A%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8C%E6%AD%A5%E7%B3%BB%E7%BB%9F/#more" rel="contents">
@@ -442,7 +613,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
