@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="作者：Peter Norvig&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;译者：Mjk  Why is everyone in such a rush?为什么大家都这么着急？Walk into any bookstore, and you’ll see how to Teach Yourself Java in 24 Hours alongside endless variations off">
+  <meta name="description" content="作者：Peter Norvig&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;译者：Mjk   Why is everyone in such a rush?为什么大家都这么着急？Walk into any bookstore, and you’ll see how to Teach Yourself Java in 24 Hours alongside endless variations of">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Teach Yourself Programming in Ten Years | 学习编程没有捷径">
 <meta property="og:url" content="http://example.com/2020/12/28/Teach-Yourself-Programming-in-Ten-Years-%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E6%B2%A1%E6%9C%89%E6%8D%B7%E5%BE%84/index.html">
 <meta property="og:site_name" content="小码哥 | 博客">
-<meta property="og:description" content="作者：Peter Norvig&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;译者：Mjk  Why is everyone in such a rush?为什么大家都这么着急？Walk into any bookstore, and you’ll see how to Teach Yourself Java in 24 Hours alongside endless variations off">
+<meta property="og:description" content="作者：Peter Norvig&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;译者：Mjk   Why is everyone in such a rush?为什么大家都这么着急？Walk into any bookstore, and you’ll see how to Teach Yourself Java in 24 Hours alongside endless variations of">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-28T06:52:07.000Z">
-<meta property="article:modified_time" content="2020-12-29T13:33:02.203Z">
+<meta property="article:modified_time" content="2020-12-30T12:40:59.543Z">
 <meta property="article:author" content="Mjk">
 <meta property="article:tag" content="程序员修养">
 <meta name="twitter:card" content="summary">
@@ -196,7 +196,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-29 21:33:02" itemprop="dateModified" datetime="2020-12-29T21:33:02+08:00">2020-12-29</time>
+                <time title="修改时间：2020-12-30 20:40:59" itemprop="dateModified" datetime="2020-12-30T20:40:59+08:00">2020-12-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,50 +226,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>作者：Peter Norvig&emsp;&emsp;&emsp;&emsp;译者：Mjk</p>
+        <center>作者：Peter Norvig&emsp;&emsp;&emsp;&emsp;译者：Mjk</center>
+
 <hr>
 <h2 id="Why-is-everyone-in-such-a-rush"><a href="#Why-is-everyone-in-such-a-rush" class="headerlink" title="Why is everyone in such a rush?"></a>Why is everyone in such a rush?</h2><h2 id="为什么大家都这么着急？"><a href="#为什么大家都这么着急？" class="headerlink" title="为什么大家都这么着急？"></a>为什么大家都这么着急？</h2><p>Walk into any bookstore, and you’ll see how to <em>Teach Yourself Java in 24 Hours</em> alongside endless variations offering to teach C, SQL, Ruby, Algorithms, and so on in a few days or hours. The Amazon advanced search for [title: teach, yourself, hours, since: 2000] and found 512 such books. Of the top ten, nine are programming books (the other is about bookkeeping). Similar results come from replacing “teach yourself” with “learn” or “hours” with “days.”</p>
 <blockquote>
-<p>走进任何一家书店，你会看到诸如<em>如何在 24 小时内学会 Java</em>，以及在几天或几个小时内学会 C、SQL、Ruby、算法等各种各样语言的书籍。在 Amazon 高级搜索中输入筛选条件[ title: teach, yourself, hours, since: 2000 ]后查询，你会找到 512 本这样的书籍。前十本中，有九本是编程书籍（另一本是关于记账的书籍）。将“自学”替换为“学习”或将“小时”替换为“天”，可以得到相似的结果。</p>
-</blockquote>
-<p> The conclusion is that either people are in a big rush to learn about programming, or that programming is somehow fabulously easier to learn than anything else. Felleisen <em>et al.</em> give a nod to this trend in their book <em>How to Design Programs</em>, when they say “Bad programming is easy. <em>Idiots</em> can learn it in <em>21 days</em>, even if they are <em>dummies</em>.” The <a target="_blank" rel="noopener" href="https://abstrusegoose.com/249">Abstruse Goose</a> comic also had their take.</p>
-<blockquote>
-<p>由此得到的结论是：要么大家都急切地想要学习编程，要么编程比其他任何技能都更容易学习。Felleisen 等人在《如何设计程序》一书中提到了这一趋势，他们说“糟糕的代码很容易编写，即使是傻瓜也可以在 21 天之内学会它”。《Abstruse Goose》漫画也讽刺了这一现象。</p>
+<p>走进书店，你会看到诸如《24 小时学会 Java》，以及在几天或几个小时内学会 C、SQL、Ruby、算法这样的书籍。在 Amazon 的高级搜索中输入筛选条件[title: teach, yourself, hours, since: 2000]后进行搜索，你会找到 512 本这样的书籍。前十本中，有九本是编程书籍（另一本是关于记账的书籍）。将“自学”替换为“学习”或将“小时”替换为“天”，可以得到相似的结果。</p>
 </blockquote>
 <a id="more"></a>
+<p> The conclusion is that either people are in a big rush to learn about programming, or that programming is somehow fabulously easier to learn than anything else. Felleisen <em>et al.</em> give a nod to this trend in their book <em>How to Design Programs</em>, when they say “Bad programming is easy. <em>Idiots</em> can learn it in <em>21 days</em>, even if they are <em>dummies</em>.” The <a target="_blank" rel="noopener" href="https://abstrusegoose.com/249">Abstruse Goose</a> comic also had their take.</p>
+<blockquote>
+<p>由此可见：要么大家都急切地想要学习编程，要么编程比其他任何技能都更容易学习。费雷森等人（Felleisen et al.）在《如何设计程序》一书中提到了这一现象，他们说“糟糕的代码很容易编写，即使是傻瓜也可以在 21 天之内学会编程”。《Abstruse Goose》漫画也讽刺了这种怪象。</p>
+</blockquote>
 <p>Let’s analyze what a title like <a target="_blank" rel="noopener" href="https://www.amazon.com/Sams-Teach-Yourself-Hours-5th/dp/0672333317/ref=sr_1_6?s=books&ie=UTF8&qid=1412708443&sr=1-6&keywords=learn+c+++days"><em>Teach Yourself C++ in 24 Hours</em></a> could mean:</p>
 <blockquote>
-<p>让我们分析一下 <em>24 小时内学会 C++</em> 这种标题可能的含义：</p>
+<p>让我们分析一下 <em>24 小时内学会 C++</em> 可能的含义：</p>
 </blockquote>
 <ul>
 <li><strong>Teach Yourself</strong>: In 24 hours you won’t have time to write several significant programs, and learn from your successes and failures with them. You won’t have time to work with an experienced programmer and understand what it is like to live in a C++ environment. In short, you won’t have time to learn much. So the book can only be talking about a superficial familiarity, not a deep understanding. As Alexander Pope said, a little learning is a dangerous thing.</li>
 </ul>
 <blockquote>
-<p>自学：在 24 小时内，你写不了几个有意义的程序，更谈不上从这些程序中总结经验和教训。你也没有时间与经验丰富的程序员合作，并理解在 C++ 环境下工作是怎么回事。一句话，你时间太少，无法学习更多的知识。所以这种书只能让你有一个浅显的认识，而不是深入的理解。正如 Alexander Pope 所说，浅学误人。</p>
+<p>自学：在 24 小时内，你写不了几个有意义的程序，更谈不上从这些程序中总结经验和教训。你也没有时间与经验丰富的程序员合作，更无法理解 C++ 的世界。一句话，你根本没有时间去学习更多的知识。所以这类书只能让你有一个浅显的认识，而不是深入的理解。正如亚历山大·蒲柏（Alexander Pope）所说，浅学误人。</p>
 </blockquote>
 <ul>
-<li><strong>C++</strong>: In 24 hours you might be able to learn some of the syntax of C++ (if you already know another language), but you couldn’t learn much about how to use the language. In short, if you were, say, a Basic programmer, you could learn to write programs in the style of Basic using C++ syntax, but you couldn’t learn what C++ is actually good (and bad) for. So what’s the point? Alan Perlis once said: “A language that doesn’t affect the way you think about programming, is not worth knowing”. One possible point is that you have to learn a tiny bit of C++ (or more likely, something like JavaScript or Processing) because you need to interface with an existing tool to accomplish a specific task. But then you’re not learning how to program; you’re learning to accomplish that task.</li>
+<li><strong>C++</strong>: In 24 hours you might be able to learn some of the syntax of C++ (if you already know another language), but you couldn’t learn much about how to use the language. In short, if you were, say, a Basic programmer, you could learn to write programs in the style of Basic using C++ syntax, but you couldn’t learn what C++ is actually good (and bad) for. So what’s the point? <a target="_blank" rel="noopener" href="http://pu.inf.uni-tuebingen.de/users/klaeren/epigrams.html">Alan Perlis</a> once said: “A language that doesn’t affect the way you think about programming, is not worth knowing”. One possible point is that you have to learn a tiny bit of C++ (or more likely, something like JavaScript or Processing) because you need to interface with an existing tool to accomplish a specific task. But then you’re not learning how to program; you’re learning to accomplish that task.</li>
 </ul>
 <blockquote>
-<p>C++：在 24 小时内，你可能学会了一些 C++ 的语法（如果你已经掌握了另一种语言），但你可能学不到更多关于如何使用这门语言的知识。简而言之，如果你是一个 Basic 程序员，你可以学习用 C++ 语法编写 Basic 风格的程序，但是你无法学到 C++ 到底有什么好处（和坏处）。那么重点是什么呢？Alan Perlis 曾经说过：“如果一门语言无法影响你的编程思维，那么它就不值得你去了解。”一种可能的情况是，你需要与现有的工具进行接口调试，所以你必须学习一点 C++（或者是 JavaScript 或 Processing 之类）的知识，以完成特定的任务。但是你这并不是在学习如何编程，你只是学会了如何完成这项任务。</p>
+<p>C++：在 24 小时内，你可能学会了一些 C++ 的语法（如果你已经掌握了另一种语言），但你无法真正掌握如何使用这门语言。简而言之，如果你是一个 Basic 程序员，你可能学会了用 C++ 的语法编写 Basic 风格的程序，但是你无法知道 C++ 到底有什么好处（和坏处）。重点是什么呢？艾伦·佩里斯（Alan Perlis）曾经说过：“如果一门语言无法影响你的编程思维，那么它就不值得你去投入时间。”有可能你需要与现有的工具进行接口调试，所以你必须学习一点 C++（或者是 JavaScript 或 Processing 之类）的知识，以完成特定的任务。但你这并不是在学习如何编程，你仅仅是学会了如何完成这项任务。</p>
 </blockquote>
 <ul>
 <li><strong>in 24 Hours</strong>: Unfortunately, this is not enough, as the next section shows.</li>
 </ul>
 <blockquote>
-<p>24小时：不幸的是，如下一节所示，这还远远不够。</p>
+<p>24小时：这远远不够，具体原因见下一节。</p>
 </blockquote>
 <hr>
 <h2 id="Teach-Yourself-Programming-in-Ten-Years"><a href="#Teach-Yourself-Programming-in-Ten-Years" class="headerlink" title="Teach Yourself Programming in Ten Years"></a>Teach Yourself Programming in Ten Years</h2><h2 id="用十年时间来学习编程"><a href="#用十年时间来学习编程" class="headerlink" title="用十年时间来学习编程"></a>用十年时间来学习编程</h2><p>Researchers (Bloom (1985), Bryan &amp; Harter (1899), Hayes (1989), Simmon &amp; Chase (1973)) have shown it takes about ten years to develop expertise in any of a wide variety of areas, including chess playing, music composition, telegraph operation, painting, piano playing, swimming, tennis, and research in neuropsychology and topology. The key is <em>deliberative</em> practice: not just doing it again and again, but challenging yourself with a task that is just beyond your current ability, trying it, analyzing your performance while and after doing it, and correcting any mistakes. Then repeat. And repeat again. There appear to be no real shortcuts: even Mozart, who was a musical prodigy at age 4, took 13 more years before he began to produce world-class music. In another genre, the Beatles seemed to burst onto the scene with a string of #1 hits and an appearance on the Ed Sullivan show in 1964. But they had been playing small clubs in Liverpool and Hamburg since 1957, and while they had mass appeal early on, their first great critical success, <em>Sgt. Peppers</em>, was released in 1967.</p>
 <blockquote>
-<p>研究人员表示，在任何领域种培养专业技能大约需要十年左右的时间，包括国际象棋、作曲、电报操作、绘画、钢琴演奏、游泳、网球以及神经心理学和拓扑学研究。刻意的练习是成功的关键：不仅仅是一遍又一遍地重复，而是要不断挑战自己能力范围之外的任务，尝试着去解决它，在做的过程中和完成任务后分析你的表现，并改正其中出现的错误。然后重复，再重复。没有捷径可言：即使是 4 岁就被誉为音乐天才的莫扎特，也花了 13 年的时间才开始创作世界一流的音乐。还有，甲壳虫乐队（The Beatles）似乎在 1964 年凭借一系列热门单曲和其在艾德沙利文秀（The Ed Sullivan show）上的演出一炮而红，但是你也许不知道，他们早在 1957 年就在利物浦和汉堡两地进行小规模演出了，而在此之前的非正式演出更是不计其数。甲壳虫乐队的主要成名曲 <em>Sgt. Peppers</em> 则是 1967 年才发行的。</p>
+<p>研究人员表示，在任何领域中培养专业技能大约需要十年左右的时间，包括国际象棋、作曲、电报操作、绘画、钢琴演奏、游泳、网球以及神经心理学和拓扑学研究等。刻意的练习是关键：这不仅仅是一遍又一遍地重复，而是要不断挑战自己能力范围之外的任务，尝试着去解决它，分析你在其中的表现，并解决出现的错误，然后重复这个过程。成功没有捷径可言：即使是 4 岁就被誉为音乐天才的莫扎特（Mozart），也花了 13 年的时间才开始创作世界一流的音乐。还有，甲壳虫乐队（The Beatles）似乎在 1964 年凭借一系列热门单曲和其在艾德沙利文秀（The Ed Sullivan show）上的演出一炮而红，但是你也许不知道，他们早在 1957 年就在利物浦（Liverpool）和汉堡（Hamburg）两地进行小规模演出了，而在此之前的非正式演出更是不计其数。甲壳虫乐队的主要成名曲 <em>Sgt. Peppers</em> 则是 1967 年才发行的。</p>
 </blockquote>
-<p>Malcolm Gladwell has popularized the idea, although he concentrates on 10,000 hours, not 10 years. Henri Cartier-Bresson (1908-2004) had another metric: “Your first 10,000 photographs are your worst.” (He didn’t anticipate that with digital cameras, some people can reach that mark in a week.) True expertise may take a lifetime: Samuel Johnson (1709-1784) said “Excellence in any department can be attained only by the labor of a lifetime; it is not to be purchased at a lesser price.” And Chaucer (1340-1400) complained “the lyf so short, the craft so long to lerne.” Hippocrates (c. 400BC) is known for the excerpt “ars longa, vita brevis”, which is part of the longer quotation “Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”, which in English renders as “Life is short, [the] craft long, opportunity fleeting, experiment treacherous, judgment difficult.” Of course, no single number can be the final answer: it doesn’t seem reasonable to assume that all skills (e.g., programming, chess playing, checkers playing, and music playing) could all require exactly the same amount of time to master, nor that all people will take exactly the same amount of time. As Prof. K. Anders Ericsson puts it, “In most domains it’s remarkable how much time even the most talented individuals need in order to reach the highest levels of performance. The 10,000 hour number just gives you a sense that we’re talking years of 10 to 20 hours a week which those who some people would argue are the most innately talented individuals still need to get to the highest level.”</p>
+<p><a target="_blank" rel="noopener" href="https://www.amazon.com/Outliers-Story-Success-Malcolm-Gladwell/dp/0316017922">Malcolm Gladwell</a> has popularized the idea, although he concentrates on 10,000 hours, not 10 years. Henri Cartier-Bresson (1908-2004) had another metric: “Your first 10,000 photographs are your worst.” (He didn’t anticipate that with digital cameras, some people can reach that mark in a week.) True expertise may take a lifetime: Samuel Johnson (1709-1784) said “Excellence in any department can be attained only by the labor of a lifetime; it is not to be purchased at a lesser price.” And Chaucer (1340-1400) complained “the lyf so short, the craft so long to lerne.” Hippocrates (c. 400BC) is known for the excerpt “ars longa, vita brevis”, which is part of the longer quotation “Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile”, which in English renders as “Life is short, [the] craft long, opportunity fleeting, experiment treacherous, judgment difficult.” Of course, no single number can be the final answer: it doesn’t seem reasonable to assume that all skills (e.g., programming, chess playing, checkers playing, and music playing) could all require exactly the same amount of time to master, nor that all people will take exactly the same amount of time. As Prof. <a target="_blank" rel="noopener" href="https://www.amazon.com/K.-Anders-Ericsson/e/B000APB8AQ/ref=dp_byline_cont_book_1">K. Anders Ericsson</a> puts it, “In most domains it’s remarkable how much time even the most talented individuals need in order to reach the highest levels of performance. The 10,000 hour number just gives you a sense that we’re talking years of 10 to 20 hours a week which those who some people would argue are the most innately talented individuals still need to get to the highest level.”</p>
 <blockquote>
-<p>Malcolm Gladwell 普及了这一观点，尽管他说的是 10000 小时而不是 10 年。Henri Cartier-Bresson（1908-2004）还有另一个衡量标准：“你拍的前 10000 张照片是最糟糕的。”（他没想到有了数码相机，有些人会在一周内达到这个目标。）真正的专业知识可能需要一生的时间：Samuel Johnson（1709-1784）说：“任何领域的卓越表现只有通过一生的努力才能实现，没有讨价还价的余地。” Chaucer（1340-1400）抱怨道“生之有限，学也无涯。” Hippocrates (约公元前 400 年)因为“ars longa, vita brevis”这句话而闻名，是“ars longa, vita brevis, praeceps, experimentum pericullosum, idirium difficile”的一部分，翻译为“生有涯，艺无尽，机遇瞬逝，践行误导，决断不易”。当然,最终的答案并不是一个特定的数字：假设所有技能（如编程、国际象棋、跳棋和播放音乐）都需要完全相同的时间来掌握是不合理的。正如 K. Anders Ericsson 教授所说：“在大多数领域里，即使是最有才华的人也需要很多时间才能达到最高的水平。10000 小时这个数字只是给你一种每周工作 10 到 20 个小时这种时间上的概念，有些人认为即使最有天赋的人想要达到最高水平也必须要付出这些时间。”</p>
+<p>马尔科姆·格拉德威尔（Malcolm Gladwell）普及了这一观点，尽管他说的是 10000 小时而不是 10 年。亨利·卡蒂埃-布列松（Henri Cartier-Bresson 1908-2004）还有另一个衡量标准：“你拍的前 10000 张照片是最糟糕的。”（他没想到有了数码相机，有些人会在一周内达到这个目标。）真正的专业知识可能需要一生的时间：塞缪尔·约翰逊（Samuel Johnson 1709-1784）说：“任何领域的卓越表现只有通过一生的努力才能实现，没有讨价还价的余地。” 乔叟（Chaucer 1340-1400）抱怨道“生之有限，学也无涯。” 希波克拉底（Hippocrates 约公元前 400 年）因为“ars longa, vita brevis”这句话而闻名，它完整的表达是“ars longa, vita brevis, praeceps, experimentum pericullosum, idirium difficile”，意思是“生有涯，艺无尽，机遇瞬逝，践行误导，决断不易”。当然，最终的答案并不是一个特定的数字：假定所有技能（如编程、国际象棋、跳棋和播放音乐等）都需要完全相同的时间来掌握是不合理的。正如安德斯•艾利克森教授（Prof. K. Anders Ericsson）所说：“在大多数领域里，即便是天赋异禀的人也需要很多时间才能达到最高的水平。10000个小时只是给你一个时间上的概念，一个天才，如果每周练习 10 到 20 个小时的时间，仍然需要数年时间才能达到专家级别的水平。”</p>
 </blockquote>
 <hr>
-<h2 id="So-You-Want-to-be-a-Programmer"><a href="#So-You-Want-to-be-a-Programmer" class="headerlink" title="So You Want to be a Programmer"></a>So You Want to be a Programmer</h2><h2 id="如果你想成为一名程序员"><a href="#如果你想成为一名程序员" class="headerlink" title="如果你想成为一名程序员"></a>如果你想成为一名程序员</h2><p>Here’s my recipe for programming success: </p>
+<h2 id="So-You-Want-to-be-a-Programmer"><a href="#So-You-Want-to-be-a-Programmer" class="headerlink" title="So You Want to be a Programmer"></a>So You Want to be a Programmer</h2><h2 id="如果你想成为一名程序员"><a href="#如果你想成为一名程序员" class="headerlink" title="如果你想成为一名程序员"></a>如果你想成为一名程序员</h2><p>Here’s my recipe for programming success:</p>
 <blockquote>
 <p>以下是我成功的秘诀：</p>
 </blockquote>
@@ -277,65 +278,65 @@
 <li>Get <strong>interested</strong> in programming, and do some because it is fun. Make sure that it keeps being enough fun so that you will be willing to put in your ten years/10,000 hours.</li>
 </ul>
 <blockquote>
-<p>对编程感兴趣，并利用编程做一些有趣的事情。确保编程一直充满乐趣，这样你才愿意为之投入 10 年或者 10000 小时。</p>
+<p>对编程感兴趣，并从中找到乐趣。将这份乐趣一直保持下去，这样你才愿意为之投入 10 年或者 10000 小时。</p>
 </blockquote>
 <ul>
 <li><strong>Program</strong>. The best kind of learning is learning by doing. To put it more technically, “the maximal level of performance for individuals in a given domain is not attained automatically as a function of extended experience, but the level of performance can be increased even by highly experienced individuals as a result of deliberate efforts to improve.” and “the most effective learning requires a well-defined task with an appropriate difficulty level for the particular individual, informative feedback, and opportunities for repetition and corrections of errors.” The book <em>Cognition in Practice: Mind, Mathematics, and Culture in Everyday Life</em> is an interesting reference for this viewpoint.</li>
 </ul>
 <blockquote>
-<p>写代码。实践出真知。更准确地说，“在特定领域中，个人的最高水平并不是通过积累经验而自动达到的，即便是经验丰富的人，也可以通过有意识的努力来提高水平。”并且“最有效的学习需要一项明确的任务，对特定的人来说有适当的难度水平，信息反馈，以及重复和纠正错误的机会。”《实践中的认知:日常生活中的心智、数学和文化》一书为这一观点提供了有趣的参考。</p>
+<p>写代码。实践出真知。更准确地说，“在特定领域中，个人的最高水平并不是通过当一天和尚撞一天钟得来的，而是通过刻意的训练换来的。”并且，“最有效果的学习需要有针对性的任务，这些任务的难度还要因人而异，并且有合理的反馈渠道，能够根据这些反馈作出相应的改进”《实践中的认知:日常生活中的心智、数学和文化》一书中介绍了这一观点。</p>
 </blockquote>
 <ul>
 <li><strong>Talk with</strong> other programmers; read other programs. This is more important than any book or training course.</li>
 </ul>
 <blockquote>
-<p>与其他程序员交谈；阅读其他程序。这比任何书籍或培训课程都重要。</p>
+<p>与其他程序员交流；阅读其他程序。这比任何书籍或培训课程都重要。</p>
 </blockquote>
 <ul>
 <li>If you want, put in four years at a <strong>college</strong> (or more at a graduate school). This will give you access to some jobs that require credentials, and it will give you a deeper understanding of the field, but if you don’t enjoy school, you can (with some dedication) get similar experience on your own or on the job. In any case, book learning alone won’t be enough. “Computer science education cannot make anybody an expert programmer any more than studying brushes and pigment can make somebody an expert painter” says Eric Raymond, author of <em>The New Hacker’s Dictionary</em>. One of the best programmers I ever hired had only a High School degree; he’s produced a lot of great software, has his own news group, and made enough in stock options to buy his own nightclub.</li>
 </ul>
 <blockquote>
-<p>如果需要，可以读个大学（或者读个硕士学位）。这会让你获得一些需要证书的工作，也会让你对这个领域有更深的了解，但如果你不喜欢学校，你也可以通过自己的努力或工作中的项目获得相关经验。无论如何，仅靠看书是不够的。《新黑客词典》的作者 Eric Raymond 说：“计算机科学教育不能让任何人成为专业程序员，就像学习画笔和颜料不能让人成为专业画家一样。”我曾经雇佣过的最好的程序员之一只有高中学历;他制作了很多很棒的软件，拥有自己的新闻集团，通过股票期权赚的钱足以买下属于自己的夜总会。</p>
+<p>如果可能的话，可以读个大学（或者读个硕士学位）。这会让你获得一些需要证书的工作，也会让你对这个领域有更深入的理解，但是，如果你一上学就头痛，直接去工作也能获得相同的经验。无论如何，死读书是不够的。《新黑客词典》的作者埃里克·雷蒙德（Eric Raymond）说：“计算机科学不会让你成为编程专家，就像学习画笔和颜料不可能让你成为画家一样。”我曾经雇佣过的最好的程序员之一只有高中学历；他写了很多很棒的软件，并且拥有自己的新闻组，赚到了足够多的钱买了自己的酒吧。</p>
 </blockquote>
 <ul>
 <li>Work on <strong>projects with</strong> other programmers. Be the best programmer on some projects; be the worst on some others. When you’re the best, you get to test your abilities to lead a project, and to inspire others with your vision. When you’re the worst, you learn what the masters do, and you learn what they don’t like to do (because they make you do it for them).</li>
 </ul>
 <blockquote>
-<p>和其他程序员一起做项目。在某些项目中成为最出色的程序员;在另一些项目中做做糟糕的那一个。当你是最出色的，你可以测试自己领导一个项目的能力，以及用你的愿景激励他人的能力。当你是最糟糕的那一个时，你会了解大神们都会做些什么，以及他们不喜欢做什么(因为他们会让你为他们做这些)。</p>
+<p>和其他程序员一起做项目。在某些项目中成为最出色的程序员；在另一些项目中做糟糕的那一个。当你是最出色的，你可以测试自己领导一个项目并激励他人的能力。当你是最糟糕的那个时，你会了解大神们都会做些什么，以及他们不喜欢做什么（因为他们会让你为他们做这些）。</p>
 </blockquote>
 <ul>
 <li>Work on <strong>projects after</strong> other programmers. Understand a program written by someone else. See what it takes to understand and fix it when the original programmers are not around. Think about how to design your programs to make it easier for those who will maintain them after you.</li>
 </ul>
 <blockquote>
-<p>接手其他程序员的项目。理解别人写的程序。当最初开发项目的程序员不在时，尝试理解项目并修复其中出现的问题。考虑如何设计你的程序，使那些接手项目的人能够更容易地维护它们。</p>
+<p>接手其他程序员的项目，去理解别人写的程序。当最初开发项目的程序员不在时，尝试理解项目代码并修复其中出现的问题。考虑如何设计你的程序，使那些接手项目的人能够更容易地维护它们。</p>
 </blockquote>
 <ul>
 <li>Learn at least a half dozen <strong>programming languages</strong>. Include one language that emphasizes class abstractions (like Java or C++), one that emphasizes functional abstraction (like Lisp or ML or Haskell), one that supports syntactic abstraction (like Lisp), one that supports declarative specifications (like Prolog or C++ templates), and one that emphasizes parallelism (like Clojure or Go).</li>
 </ul>
 <blockquote>
-<p>学习至少六种编程语言。包括一种强调类抽象的语言（如 Java 或 C++），一种强调函数抽象的语言（如 Lisp 或 ML 或 Haskell），一种支持语法抽象的语言（如 Lisp），一种支持声明性规范的语言（如 Prolog 或 C++ 模板），以及一种强调并行性的语言（如 Clojure 或 Go）。</p>
+<p>学习至少六种编程语言。包括一种强调类抽象的语言（如 Java 或 C++），一种强调函数抽象的语言（如 Lisp 或 ML 或 Haskell），一种支持语法抽象的语言（如 Lisp），一种支持声明规范的语言（如 Prolog 或 C++ 模板），以及一种强调并行性的语言（如 Clojure 或 Go）。</p>
 </blockquote>
 <ul>
 <li>Remember that there is a “<strong>computer</strong>“ in “computer science”. Know how long it takes your computer to execute an instruction, fetch a word from memory (with and without a cache miss), read consecutive words from disk, and seek to a new location on disk.(<a target="_blank" rel="noopener" href="http://xiaomage.me/2020/12/28/Teach-Yourself-Programming-in-Ten-Years-%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E6%B2%A1%E6%9C%89%E6%8D%B7%E5%BE%84/#Answers">Answers here.</a>)</li>
 </ul>
 <blockquote>
-<p>记住，在“计算机科学”中有一个“计算机”。知道你的计算机执行一条指令、从内存中取一个字(有或没有缓存丢失)、从磁盘中读取连续的字以及寻找磁盘上的新位置需要多长时间。</p>
+<p>记住，在“计算机科学”中有一个“计算机”。知道你的计算机执行一条指令、从内存中取一个字(有没有缓存丢失)、从磁盘中读取连续的字以及寻找磁盘上的新位置需要多长时间。</p>
 </blockquote>
 <ul>
 <li>Get involved in a language <strong>standardization</strong> effort. It could be the ANSI C++ committee, or it could be deciding if your local coding style will have 2 or 4 space indentation levels. Either way, you learn about what other people like in a language, how deeply they feel so, and perhaps even a little about why they feel so.</li>
 </ul>
 <blockquote>
-<p>参与语言标准化工作。它可以是 ANSI C++ 委员会，或者它可以决定你的本地编码风格是有 2 个或 4 个空格缩进级别。无论哪种方式，你都可以了解到其他人在语言中喜欢什么，他们的感受有多深，甚至可能了解一点他们为什么会有这样的感觉。</p>
+<p>参与语言标准化工作。这可能是 ANSI C++ 委员会，也可能是缩进的风格是两格缩进还是四格缩进。无论哪种方式，你都可以了解到其他人在语言中喜欢什么，他们的热爱程度有多深，甚至可能了解一点他们为什么喜欢这样。</p>
 </blockquote>
 <ul>
 <li>Have the good sense to <strong>get off</strong> the language standardization effort as quickly as possible.</li>
 </ul>
 <blockquote>
-<p>具有良好的意识，可以尽快开始语言标准化工作。</p>
+<p>知道何时能从标准化语言的工作中脱身，越快越好。</p>
 </blockquote>
 <p>With all that in mind, its questionable how far you can get just by book learning. Before my first child was born, I read all the <em>How To</em> books, and still felt like a clueless novice. 30 Months later, when my second child was due, did I go back to the books for a refresher? No. Instead, I relied on my personal experience, which turned out to be far more useful and reassuring to me than the thousands of pages written by experts.</p>
 <blockquote>
-<p>考虑到所有这些，仅仅通过书本来学习，编程这条路能走多远是需要画上问号的。在我的第一个孩子出生之前，我读了所有关于“如何做”的书，仍然觉得自己是个毫无头绪的新手。30 个月后，当我的第二个孩子出生的时候，我是否又回去复习了一下呢？不。相反，我依靠的是我的个人经验，这对我来说比专家写的成千上万页的讲解要有用得多，也更让我安心。</p>
+<p>考虑到所有这些，很难说能从书本中学到多少东西。在我第一个孩子出生之前，我读了所有关于“如何做”的书，仍然觉得自己是个毫无头绪的新手。30 个月后，当我第二个孩子出生的时候，我是否又回去复习了一下呢？不。相反，我依靠的是我的个人经验，这对我来说比专家写的成千上万页的讲解要有用得多，也更让我安心。</p>
 </blockquote>
 <p>Fred Brooks, in his essay <em>No Silver Bullet</em> identified a three-part plan for finding great software designers:</p>
 <ol>
@@ -347,18 +348,18 @@
 </li>
 </ol>
 <blockquote>
-<p>Fred Brooks 在他的随笔《没有银弹》中定出了一个寻找优秀软件设计者的三步计划:</p>
-<p>1.尽可能早地，有系统地识别顶级的设计人员。</p>
+<p>弗雷德·布鲁克斯（Fred Brooks）在他的随笔《没有银弹》中给出了三个建议:</p>
+<p>1.尽可能早地，有系统地识别出顶级设计人员。</p>
 <p>2.为设计人员指派一位职业导师，负责他们技术方面的成长，仔细地为他们规划职业生涯。</p>
 <p>3.为成长中的设计人员提供相互交流和学习的机会。</p>
 </blockquote>
-<p>This assumes that some people already have the qualities necessary for being a great designer; the job is to properly coax them along. Alan Perlis put it more succinctly: “Everyone can be taught to sculpt: Michelangelo would have had to be taught how not to. So it is with the great programmers”. Perlis is saying that the greats have some internal quality that transcends their training. But where does the quality come from? Is it innate? Or do they develop it through diligence? As Auguste Gusteau (the fictional chef in <em>Ratatouille</em>) puts it, “anyone can cook, but only the fearless can be great.” I think of it more as willingness to devote a large portion of one’s life to deliberative practice. But maybe fearless is a way to summarize that. Or, as Gusteau’s critic, Anton Ego, says: “Not everyone can become a great artist, but a great artist can come from anywhere.”</p>
+<p>This assumes that some people already have the qualities necessary for being a great designer; the job is to properly coax them along. <a target="_blank" rel="noopener" href="http://pu.inf.uni-tuebingen.de/users/klaeren/epigrams.html">Alan Perlis</a> put it more succinctly: “Everyone can be taught to sculpt: Michelangelo would have had to be taught how not to. So it is with the great programmers”. Perlis is saying that the greats have some internal quality that transcends their training. But where does the quality come from? Is it innate? Or do they develop it through diligence? As Auguste Gusteau (the fictional chef in <em>Ratatouille</em>) puts it, “anyone can cook, but only the fearless can be great.” I think of it more as willingness to devote a large portion of one’s life to deliberative practice. But maybe <em>fearless</em> is a way to summarize that. Or, as Gusteau’s critic, Anton Ego, says: “Not everyone can become a great artist, but a great artist can come from anywhere.”</p>
 <blockquote>
-<p>这是假设有些人已经具备成为优秀设计师的必备素质;要做的就是好好地哄着它们。Alan Perlis 说得更加简洁：“每个人都能被教会雕刻：对米开朗其罗而言，反倒是告诉他哪些事不要做。同样的道理也适用于优秀的程序员。”Perlis 曾说过，伟人有一些内在的品质超越了他们的训练。但质量从何而来？是天生的吗？还是通过勤奋来培养的？就像 Auguste Gusteau（《料理杂烩》中的虚构厨师）所说的那样，“人人都能做菜，但只有无所畏惧的人才能成为伟大的厨师。”我认为这更像是一种愿意把生命的大部分时间用于深思熟虑的修行。但无所畏惧或许是一种总结的方式。或者，正如《食神》的评论家 Anton Ego 所说：“不是每个人都能成为伟大的艺术家，但伟大的艺术家可能来自任何地方。”</p>
+<p>此处假设有一些人天生有成为伟大设计师的潜质，然后，就是正确的去引导他们。艾伦·佩里斯（Alan Perlis）一针见血地说：“假如每个人都可以学会雕刻，那就得教米开朗基罗哪些事不要去做。对于伟大程序员，也是如此。”佩里斯曾说过，伟大的人有一种内在的特质，这种特质往往比接受训练更重要。但是，这些特质是从哪里来的呢？与生俱来的？还是通过后天勤奋而来的？就像厨神（Auguste Gusteau《料理鼠王》中的虚构厨师）所说的那样，“人人都能做菜，但只有无所畏惧的人才能成为伟大的厨师。”我认为这是一种自愿奉献的精神——把你生命中的大部分时间花在有针对性的训练上。但或许“无所畏惧”才是体现这种精神的真谛。或者，正如《料理鼠王》中的美食评论家柯博先生（Anton Ego）所说：“不是每个人都能成为伟大的艺术家，但伟大的艺术家可能来自任何地方。”</p>
 </blockquote>
 <p>So go ahead and buy that Java/Ruby/Javascript/PHP book; you’ll probably get some use out of it. But you won’t change your life, or your real overall expertise as a programmer in 24 hours or 21 days. How about working hard to continually improve over 24 months? Well, now you’re starting to get somewhere…</p>
 <blockquote>
-<p>所以去买一本 Java/Ruby/Javascript/PHP 的书吧;你可能会用到它的。但是你不要指望能在 24 小时或 21 天内改变你的生活，或者真正掌握作为一个程序员需要的专业知识。在过去的 24 个月里努力工作以不断提高怎么样？现在你开始有进展了…</p>
+<p>所以尽管去买一本 Java/Ruby/Javascript/PHP 的书吧；你可能会从中学到点儿有用的东西。但是你不要指望能在 24 小时或 21 天内改变你的人生，或者真正提高你的编程水平。在过去的 24 个月里努力工作以不断提高怎么样？现在你开始有进展了…</p>
 </blockquote>
 <hr>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>Bloom, Benjamin (ed.) Developing Talent in Young People, Ballantine, 1985.</p>
@@ -476,68 +477,6 @@
 <td>150 毫秒 = 150000000 纳秒</td>
 </tr>
 </tbody></table>
-<hr>
-<h2 id="Appendix-Language-Choice"><a href="#Appendix-Language-Choice" class="headerlink" title="Appendix: Language Choice"></a>Appendix: Language Choice</h2><h2 id="附录：语言选择"><a href="#附录：语言选择" class="headerlink" title="附录：语言选择"></a>附录：语言选择</h2><p>Several people have asked what programming language they should learn first. There is no one answer, but consider these points:</p>
-<blockquote>
-<p>有人问他们应该先学哪种编程语言。这里没有明确的答案，但在选择时可以参考以下几点：</p>
-</blockquote>
-<ul>
-<li><em>Use your friends</em>. When asked “what operating system should I use, Windows, Unix, or Mac?”, my answer is usually: “use whatever your friends use.” The advantage you get from learning from your friends will offset any intrinsic difference between OS, or between programming languages. Also consider your future friends: the community of programmers that you will be a part of if you continue. Does your chosen language have a large growing community or a small dying one? Are there books, web sites, and online forums to get answers from? Do you like the people in those forums?</li>
-</ul>
-<blockquote>
-<p>询问你的朋友。当被问及“我该使用什么操作系统，Windows、Unix 或者 Mac 时”，我的答案通常是：“你朋友用什么你就用什么。”从朋友那里学习的好处将抵消掉操作系统或编程语言之间的内在差异。还要考虑你未来的朋友：如果你继续下去，你将成为程序员社区其中的一员。你选择的语言有一个正在成长的大社区还是一个正在消亡的小社区？是否有书籍、网站和在线论坛可以得到答案？你喜欢那些社区里的人吗？</p>
-</blockquote>
-<ul>
-<li><em>Keep it simple</em>. Programming languages such as C++ and Java are designed for professional development by large teams of experienced programmers who are concerned about the run-time efficiency of their code. As a result, these languages have complicated parts designed for these circumstances. You’re concerned with learning to program. You don’t need that complication. You want a language that was designed to be easy to learn and remember by a single new programmer.</li>
-</ul>
-<blockquote>
-<p>保持简单。像 C++ 和 Java 这样的编程语言是专门为专业开发而设计的，这些开发团队由经验丰富的程序员组成，他们关心代码的运行时效率。因此，这些语言有针对这些情况而设计的复杂部件。你关心的是学习编程，不需要那么复杂。你需要的是一种被设计成新手容易学习和记忆的编程语言。</p>
-</blockquote>
-<ul>
-<li><em>Play</em>. Which way would you rather learn to play the piano: the normal, interactive way, in which you hear each note as soon as you hit a key, or “batch” mode, in which you only hear the notes after you finish a whole song? Clearly, interactive mode makes learning easier for the piano, and also for programming. Insist on a language with an interactive mode and use it.</li>
-</ul>
-<blockquote>
-<p>用玩的方式去学。你更愿意用哪种方式来学习弹钢琴：正常的、互动的方式，即你一按下一个键就能听到每个音符，还是“批量”模式，即你只在完成整首歌后才能听到每个音符？显然，交互模式使学习钢琴和编程变得更容易。坚持学习一种具有交互模式的编程语言并使用它。</p>
-</blockquote>
-<p>Given these criteria, my recommendations for a first programming language would be Python or Scheme. Another choice is Javascript, not because it is perfectly well-designed for beginners, but because there are so many online tutorials for it, such as Khan Academy’s tutorial. But your circumstances may vary, and there are other good choices. If your age is a single-digit, you might prefer Alice or Squeak or Blockly (older learners might also enjoy these). The important thing is that you choose and get started.</p>
-<blockquote>
-<p>鉴于这些标准，我建议首选编程语言是 Python 或 Scheme。另一个选择是 Javascript，不是因为它为初学者设计得多么好，而是因为有很多关于它的在线教程，比如可汗学院的教程。但你的情况可能会有所不同，也会有其他好的选择。如果您的年龄是个位数，您可能更喜欢 Alice 或 Squeak 或 Blockly（年龄较大的学习者可能也喜欢这些）。重要的是你选择一种编程语言并且开始学习和使用它。</p>
-</blockquote>
-<hr>
-<h2 id="Appendix-Books-and-Other-Resources"><a href="#Appendix-Books-and-Other-Resources" class="headerlink" title="Appendix: Books and Other Resources"></a>Appendix: Books and Other Resources</h2><h2 id="附录：书籍和其他资源"><a href="#附录：书籍和其他资源" class="headerlink" title="附录：书籍和其他资源"></a>附录：书籍和其他资源</h2><p>Several people have asked what books and web pages they should learn from. I repeat that “book learning alone won’t be enough” but I can recommend the following:</p>
-<blockquote>
-<p>一些人问他们应该从哪些书籍和网页中学习。我重申，“单靠书本学习是不够的”，但我可以推荐以下内容：</p>
-</blockquote>
-<ul>
-<li><strong>Scheme</strong>: <a target="_blank" rel="noopener" href="https://www.amazon.com/gp/product/0262011530">Structure and Interpretation of Computer Programs (Abelson &amp; Sussman)</a> is probably the best introduction to computer science, and it does teach programming as a way of understanding the computer science. You can see <a target="_blank" rel="noopener" href="http://groups.csail.mit.edu/mac/classes/6.001/abelson-sussman-lectures/">online videos of lectures</a> on this book, as well as the <a target="_blank" rel="noopener" href="https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book.html">complete text online</a>. The book is challenging and will weed out some people who perhaps could be successful with another approach.</li>
-</ul>
-<blockquote>
-<p>Scheme：《计算机程序的构造和解释》可能是最好的计算机科学入门书籍，它将编程作为理解计算机科学的一种方式来教授。你可以在网上看到这本书的讲座视频，以及完整的文本。这本书具有挑战性，它将淘汰一些可能通过另一种方法获得成功的人。</p>
-</blockquote>
-<ul>
-<li><strong>Scheme</strong>: <a target="_blank" rel="noopener" href="https://www.amazon.com/gp/product/0262062186">How to Design Programs (Felleisen et al.)</a> is one of the best books on how to actually design programs in an elegant and functional way.</li>
-</ul>
-<blockquote>
-<p>《如何设计程序》教你如何以优雅和实用的方式来设计程序，它是相关书籍中最棒的之一。</p>
-</blockquote>
-<ul>
-<li><strong>Python</strong>: <a target="_blank" rel="noopener" href="https://www.amazon.com/gp/product/1887902996">Python Programming: An Intro to CS (Zelle)</a> is a good introduction using Python. </li>
-</ul>
-<blockquote>
-<p>《Python编程：CS入门》是一本很好的 Python 入门书。</p>
-</blockquote>
-<ul>
-<li><strong>Python</strong>: Several online <a target="_blank" rel="noopener" href="https://wiki.python.org/moin/BeginnersGuide">tutorials</a> are available at <a href="python.org">Python.org</a>.</li>
-</ul>
-<blockquote>
-<p>一些在线教程可以在 Python.org 上找到。</p>
-</blockquote>
-<ul>
-<li><strong>Oz</strong>: <a target="_blank" rel="noopener" href="https://www.amazon.com/gp/product/0262220695">Concepts, Techniques, and Models of Computer Programming (Van Roy &amp; Haridi)</a> is seen by some as the modern-day successor to Abelson &amp; Sussman. It is a tour through the big ideas of programming, covering a wider range than Abelson &amp; Sussman while being perhaps easier to read and follow. It uses a language, Oz, that is not widely known but serves as a basis for learning other languages.</li>
-</ul>
-<blockquote>
-<p>《计算机编程的概念、技术和模型》被一些人视为 Abelson &amp; Sussman 的现代继承者。这是一次编程的大理念之旅，涵盖范围比 Abelson &amp; Sussman 更广泛，但更容易阅读和理解。它使用一种语言：Oz，不广为人知，但可以作为学习其他语言的基础。</p>
-</blockquote>
 
     </div>
 
@@ -559,7 +498,10 @@
     <a href="/2020/11/26/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" rel="prev" title="JVM垃圾回收">
       <i class="fa fa-chevron-left"></i> JVM垃圾回收
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/30/The-Key-To-Accelerating-Your-Coding-Skills-%E6%8F%90%E9%AB%98%E7%BC%96%E7%A8%8B%E6%B0%B4%E5%B9%B3%E7%9A%84%E5%85%B3%E9%94%AE/" rel="next" title="The Key To Accelerating Your Coding Skills | 提高编程水平的关键">
+      The Key To Accelerating Your Coding Skills | 提高编程水平的关键 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -618,7 +560,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-is-everyone-in-such-a-rush"><span class="nav-number">1.</span> <span class="nav-text">Why is everyone in such a rush?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%A7%E5%AE%B6%E9%83%BD%E8%BF%99%E4%B9%88%E7%9D%80%E6%80%A5%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">为什么大家都这么着急？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Teach-Yourself-Programming-in-Ten-Years"><span class="nav-number">3.</span> <span class="nav-text">Teach Yourself Programming in Ten Years</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E6%9D%A5%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">用十年时间来学习编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#So-You-Want-to-be-a-Programmer"><span class="nav-number">5.</span> <span class="nav-text">So You Want to be a Programmer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E4%BD%A0%E6%83%B3%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D%E7%A8%8B%E5%BA%8F%E5%91%98"><span class="nav-number">6.</span> <span class="nav-text">如果你想成为一名程序员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">8.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Answers"><span class="nav-number">9.</span> <span class="nav-text">Answers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%94%E6%A1%88"><span class="nav-number">10.</span> <span class="nav-text">答案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Appendix-Language-Choice"><span class="nav-number">11.</span> <span class="nav-text">Appendix: Language Choice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9"><span class="nav-number">12.</span> <span class="nav-text">附录：语言选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Appendix-Books-and-Other-Resources"><span class="nav-number">13.</span> <span class="nav-text">Appendix: Books and Other Resources</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E4%B9%A6%E7%B1%8D%E5%92%8C%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90"><span class="nav-number">14.</span> <span class="nav-text">附录：书籍和其他资源</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-is-everyone-in-such-a-rush"><span class="nav-number">1.</span> <span class="nav-text">Why is everyone in such a rush?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%A7%E5%AE%B6%E9%83%BD%E8%BF%99%E4%B9%88%E7%9D%80%E6%80%A5%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">为什么大家都这么着急？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Teach-Yourself-Programming-in-Ten-Years"><span class="nav-number">3.</span> <span class="nav-text">Teach Yourself Programming in Ten Years</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E5%8D%81%E5%B9%B4%E6%97%B6%E9%97%B4%E6%9D%A5%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">用十年时间来学习编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#So-You-Want-to-be-a-Programmer"><span class="nav-number">5.</span> <span class="nav-text">So You Want to be a Programmer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E4%BD%A0%E6%83%B3%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D%E7%A8%8B%E5%BA%8F%E5%91%98"><span class="nav-number">6.</span> <span class="nav-text">如果你想成为一名程序员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">8.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Answers"><span class="nav-number">9.</span> <span class="nav-text">Answers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%94%E6%A1%88"><span class="nav-number">10.</span> <span class="nav-text">答案</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -634,7 +576,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -681,8 +623,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
